@@ -17,13 +17,18 @@ class driver extends uvm_driver#(dma_seq_item);
     
   endfunction
   
-  task drive();    
+  task drive(dma_seq_item req);    
     vif.drv_cb.wr_en<=req.wr_en;
     vif.drv_cb.rd_en<=req.rd_en;
     vif.drv_cb.addr<=req.addr;
     vif.drv_cb.wdata<=req.wdata;
-    `uvm_info("DRIVER", $sformatf("[drv-%0d] sent wr_en =%0d | rd_en = %0d | addr =%0d | wdata=%0d ",i,req.wr_en,req.rd_en,req.addr,req.wdata), UVM_LOW)
+    `uvm_info("DRIVER", $sformatf("[drv-%0d] sent wr_en =%0d | rd_en = %0d | addr =%0h | wdata=%0d ",i,req.wr_en,req.rd_en,req.addr,req.wdata), UVM_LOW)
     @(vif.drv_cb);
+    if(req.rd_en)
+      begin
+        req.rdata =vif.drv_cb.rdata;
+        $display("data=%0d rd_en=%0d",req.rdata,req.rd_en);
+      end
     i++;
   endtask
   
@@ -33,7 +38,7 @@ class driver extends uvm_driver#(dma_seq_item);
     forever
       begin
         seq_item_port.get_next_item(req);     
-        drive();
+        drive(req);
         seq_item_port.item_done();            
       end
   endtask
