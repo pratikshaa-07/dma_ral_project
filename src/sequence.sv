@@ -17,7 +17,7 @@ class main_seq extends uvm_sequence;
   virtual task body();
 
     //--------------- MEM ADDR REG (RW) ------------------------//
-    repeat (10)  begin
+    repeat (50)  begin
       assert(std::randomize(wrt_data));
       operation_fd(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
       operation_bd(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
@@ -27,7 +27,7 @@ class main_seq extends uvm_sequence;
     //----------------------------------------------------------//
 
     //--------------- INTR ADDR REG (RW) -----------------------//
-    repeat (10)  begin
+    repeat (50)  begin
       assert(std::randomize(wrt_data) with {wrt_data inside {[32'h0 : 32'hFFFF]};});
       operation_fd(reg_blk.intr_inst, wrt_data, "INTR_REG");
       operation_bd(reg_blk.intr_inst, wrt_data, "INTR_REG");
@@ -37,7 +37,7 @@ class main_seq extends uvm_sequence;
     //----------------------------------------------------------//
 
     //--------------- CTRL ADDR REG (RW) -----------------------//
-    repeat (10) begin
+    repeat (50) begin
       assert(std::randomize(wrt_data));
       operation_fd(reg_blk.ctrl_inst,wrt_data, "CTRL_ADDR");
       operation_bd(reg_blk.ctrl_inst,wrt_data, "CTRL_ADDR");
@@ -47,7 +47,7 @@ class main_seq extends uvm_sequence;
     //----------------------------------------------------------//
 
     //--------------- IO ADDR REG (RW) -------------------------//
-    repeat (10) begin
+    repeat (50) begin
       assert(std::randomize(wrt_data));
       operation_fd(reg_blk.io_addr_inst,wrt_data, "IO_ADDR");
       operation_bd(reg_blk.io_addr_inst,wrt_data, "IO_ADDR");
@@ -57,7 +57,7 @@ class main_seq extends uvm_sequence;
     //----------------------------------------------------------//
 
     //--------------- TRANSFER COUNT REG (RO) -----------------//
-    repeat (10) begin
+    repeat (50) begin
       assert(std::randomize(wrt_data));
       operation_fd(reg_blk.transfer_count_inst,wrt_data, "TRANSFER_COUNT");
       operation_bd(reg_blk.transfer_count_inst,wrt_data, "TRANSFER_COUNT");
@@ -67,7 +67,7 @@ class main_seq extends uvm_sequence;
     //----------------------------------------------------------//
 
     //--------------- DESCRIPTOR REG (RW) ---------------------//
-    repeat (10) begin
+    repeat (50) begin
       assert(std::randomize(wrt_data));
       operation_fd(reg_blk.descriptor_addr_inst,wrt_data, "DESCRIPTOR_REG");
       operation_bd(reg_blk.descriptor_addr_inst,wrt_data, "DESCRIPTOR_REG");
@@ -77,7 +77,7 @@ class main_seq extends uvm_sequence;
     //----------------------------------------------------------//
 
     //--------------- EXTRA INFO REG ---------------------------//
-    repeat (10) begin
+    repeat (50) begin
       assert(std::randomize(wrt_data));
       operation_fd(reg_blk.extra_info_inst,wrt_data, "EXTRA_INFO");
       operation_bd(reg_blk.extra_info_inst,wrt_data , "EXTRA_INFO");
@@ -87,7 +87,7 @@ class main_seq extends uvm_sequence;
     //----------------------------------------------------------//
 
     //--------------- STATUS REG (RO) --------------------------//
-    repeat (10) begin
+    repeat (50) begin
       assert(std::randomize(wrt_data));
       operation_fd(reg_blk.status_inst,wrt_data, "STATUS_REG");
       operation_bd(reg_blk.status_inst, wrt_data , "STATUS_REG");
@@ -97,7 +97,7 @@ class main_seq extends uvm_sequence;
     //----------------------------------------------------------//
 
     //--------------- ERROR STATUS REG (W1C) ------------------//
-    repeat (10) begin
+    repeat (50) begin
       assert(std::randomize(wrt_data));
       operation_fd(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
       operation_bd(reg_blk.error_status_inst,wrt_data , "ERROR_STATUS");
@@ -107,7 +107,7 @@ class main_seq extends uvm_sequence;
     //----------------------------------------------------------//
 
     //--------------- CONFIG REG (RW) --------------------------//
-    repeat (10) begin
+    repeat (50) begin
       assert(std::randomize(wrt_data));
       operation_fd(reg_blk.config_inst, wrt_data, "CONFIG_REG");
       operation_bd(reg_blk.config_inst, wrt_data , "CONFIG_REG");
@@ -280,71 +280,71 @@ class peak_poke_seq extends uvm_sequence#(dma_seq_item);
     virtual task body();
 
     //--------------- MEM ADDR REG (RW) ------------------------//
-    repeat (10)  begin
-      #30;
+    repeat (50)  begin
+     // #30;
       assert(std::randomize(wrt_data));
       peak_poke(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
     end
     //----------------------------------------------------------//
 
     //--------------- INTR ADDR REG (RW) -----------------------//
-    repeat (10)  begin
+    repeat (50)  begin
       assert(std::randomize(wrt_data) with {wrt_data inside {[32'h0 : 32'hFFFF]};});
       peak_poke(reg_blk.intr_inst, wrt_data, "INTR_REG");
     end
     //----------------------------------------------------------//
 
     //--------------- CTRL ADDR REG (RW) -----------------------//
-    repeat (1) begin
+    repeat (50) begin
       assert(std::randomize(wrt_data));
       peak_poke(reg_blk.ctrl_inst,wrt_data, "CTRL_ADDR");
     end
     //----------------------------------------------------------//
 
     //--------------- IO ADDR REG (RW) -------------------------//
-    repeat (1) begin
+    repeat (50) begin
       assert(std::randomize(wrt_data));
       peak_poke(reg_blk.io_addr_inst,wrt_data, "IO_ADDR");
     end
     //----------------------------------------------------------//
 
     //--------------- TRANSFER COUNT REG (RO) -----------------//
-    repeat (1) begin
+    repeat (50) begin
       assert(std::randomize(wrt_data));
       peak_poke(reg_blk.transfer_count_inst,wrt_data, "TRANSFER_COUNT");
     end
     //----------------------------------------------------------//
 
     //--------------- DESCRIPTOR REG (RW) ---------------------//
-    repeat (1) begin
+    repeat (50) begin
       assert(std::randomize(wrt_data));
       peak_poke(reg_blk.descriptor_addr_inst,wrt_data, "DESCRIPTOR_REG");
     end
     //----------------------------------------------------------//
 
     //--------------- EXTRA INFO REG ---------------------------//
-    repeat (1) begin
+    repeat (50) begin
       assert(std::randomize(wrt_data));
       peak_poke(reg_blk.extra_info_inst,wrt_data, "EXTRA_INFO");
     end
     //----------------------------------------------------------//
 
     //--------------- STATUS REG (RO) --------------------------//
-    repeat (1) begin
+    repeat (50) begin
       assert(std::randomize(wrt_data));
       peak_poke(reg_blk.status_inst, wrt_data, "STATUS_REG");
     end
     //----------------------------------------------------------//
 
     //--------------- ERROR STATUS REG (W1C) ------------------//
-    repeat (1) begin
+    repeat (50) begin
       assert(std::randomize(wrt_data));
       peak_poke(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
     end
     //----------------------------------------------------------//
 
     //--------------- CONFIG REG (RW) --------------------------//
-    repeat (1) begin
+    repeat (50) begin
       assert(std::randomize(wrt_data));
       peak_poke(reg_blk.config_inst, wrt_data, "CONFIG_REG");
     end
