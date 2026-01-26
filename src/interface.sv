@@ -3,7 +3,7 @@ interface inf (input logic clk,input logic rst_n);
   bit rd_en;
   bit [31:0] addr;
   bit [31:0] wdata;
-  logic [31:0] rdata;
+  bit [31:0] rdata;
 
   clocking drv_cb @(posedge clk);
     default input #0 output #0 ;
@@ -20,4 +20,3 @@ interface inf (input logic clk,input logic rst_n);
   modport mon (clocking mon_cb, input clk, rst_n);
 
 endinterface
-
