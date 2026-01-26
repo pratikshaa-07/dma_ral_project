@@ -23,9 +23,10 @@ class driver extends uvm_driver#(dma_seq_item);
     vif.drv_cb.addr<=req.addr;
     vif.drv_cb.wdata<=req.wdata;
     `uvm_info("DRIVER", $sformatf("[drv-%0d] sent wr_en =%0d | rd_en = %0d | addr =%0h | wdata=%0d ",i,req.wr_en,req.rd_en,req.addr,req.wdata), UVM_LOW)
-    @(vif.drv_cb);
+   repeat(1)@(vif.drv_cb);
     if(req.rd_en)
       begin
+        //@(vif.drv_cb);
         req.rdata =vif.drv_cb.rdata;
         $display("data=%0d rd_en=%0d",req.rdata,req.rd_en);
       end
