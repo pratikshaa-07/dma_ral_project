@@ -2,85 +2,417 @@ class main_seq extends uvm_sequence;
 
   `uvm_object_utils(main_seq)
 
-  my_reg_block reg_blk;
-  uvm_status_e status;
-  bit [31:0] rdata_dv, rdata_mv;
-  bit [31:0] read_data;
-  bit [31:0] data;
-  
+  my_reg_block     reg_blk;
+  uvm_status_e     status;
+  uvm_reg_data_t   rdata_dv, rdata_mv;
+  uvm_reg_data_t   read_data;
+  uvm_reg_data_t   data;
+
+  randc bit [31:0] wrt_data;
+
   function new(string name="");
     super.new(name);
   endfunction
 
   virtual task body();
-    operation_bd(reg_blk.mem_addr_inst, 32'h5, "MEM_ADDR");
+
+    //--------------- MEM ADDR REG (RW) ------------------------//
+    repeat (10)  begin
+      assert(std::randomize(wrt_data));
+      operation_fd(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
+      operation_bd(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
+      combo1 (reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
+      combo2(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
+    end
+    //----------------------------------------------------------//
+
+    //--------------- INTR ADDR REG (RW) -----------------------//
+    repeat (10)  begin
+      assert(std::randomize(wrt_data) with {wrt_data inside {[32'h0 : 32'hFFFF]};});
+      operation_fd(reg_blk.intr_inst, wrt_data, "INTR_REG");
+      operation_bd(reg_blk.intr_inst, wrt_data, "INTR_REG");
+      combo1(reg_blk.intr_inst,wrt_data, "INTR_REG");
+      combo2(reg_blk.intr_inst, wrt_data, "INTR_REG");
+    end
+    //----------------------------------------------------------//
+
+    //--------------- CTRL ADDR REG (RW) -----------------------//
+    repeat (10) begin
+      assert(std::randomize(wrt_data));
+      operation_fd(reg_blk.ctrl_inst,wrt_data, "CTRL_ADDR");
+      operation_bd(reg_blk.ctrl_inst,wrt_data, "CTRL_ADDR");
+      combo1 (reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
+      combo2 (reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
+    end
+    //----------------------------------------------------------//
+
+    //--------------- IO ADDR REG (RW) -------------------------//
+    repeat (10) begin
+      assert(std::randomize(wrt_data));
+      operation_fd(reg_blk.io_addr_inst,wrt_data, "IO_ADDR");
+      operation_bd(reg_blk.io_addr_inst,wrt_data, "IO_ADDR");
+      combo1(reg_blk.io_addr_inst,wrt_data, "IO_ADDR");
+      combo2(reg_blk.io_addr_inst,wrt_data, "IO_ADDR");
+    end
+    //----------------------------------------------------------//
+
+    //--------------- TRANSFER COUNT REG (RO) -----------------//
+    repeat (10) begin
+      assert(std::randomize(wrt_data));
+      operation_fd(reg_blk.transfer_count_inst,wrt_data, "TRANSFER_COUNT");
+      operation_bd(reg_blk.transfer_count_inst,wrt_data, "TRANSFER_COUNT");
+      combo1     (reg_blk.transfer_count_inst,wrt_data, "TRANSFER_COUNT");
+      combo2     (reg_blk.transfer_count_inst,wrt_data, "TRANSFER_COUNT");
+    end
+    //----------------------------------------------------------//
+
+    //--------------- DESCRIPTOR REG (RW) ---------------------//
+    repeat (10) begin
+      assert(std::randomize(wrt_data));
+      operation_fd(reg_blk.descriptor_addr_inst,wrt_data, "DESCRIPTOR_REG");
+      operation_bd(reg_blk.descriptor_addr_inst,wrt_data, "DESCRIPTOR_REG");
+      combo1 (reg_blk.descriptor_addr_inst,wrt_data, "DESCRIPTOR_REG");
+      combo2 (reg_blk.descriptor_addr_inst,wrt_data, "DESCRIPTOR_REG");
+    end
+    //----------------------------------------------------------//
+
+    //--------------- EXTRA INFO REG ---------------------------//
+    repeat (10) begin
+      assert(std::randomize(wrt_data));
+      operation_fd(reg_blk.extra_info_inst,wrt_data, "EXTRA_INFO");
+      operation_bd(reg_blk.extra_info_inst,wrt_data , "EXTRA_INFO");
+      combo1(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
+      combo2(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
+    end
+    //----------------------------------------------------------//
+
+    //--------------- STATUS REG (RO) --------------------------//
+    repeat (10) begin
+      assert(std::randomize(wrt_data));
+      operation_fd(reg_blk.status_inst,wrt_data, "STATUS_REG");
+      operation_bd(reg_blk.status_inst, wrt_data , "STATUS_REG");
+      combo1     (reg_blk.status_inst,wrt_data, "STATUS_REG");
+      combo2     (reg_blk.status_inst, wrt_data, "STATUS_REG");
+    end
+    //----------------------------------------------------------//
+
+    //--------------- ERROR STATUS REG (W1C) ------------------//
+    repeat (10) begin
+      assert(std::randomize(wrt_data));
+      operation_fd(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
+      operation_bd(reg_blk.error_status_inst,wrt_data , "ERROR_STATUS");
+      combo1 (reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
+      combo2 (reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
+    end
+    //----------------------------------------------------------//
+
+    //--------------- CONFIG REG (RW) --------------------------//
+    repeat (10) begin
+      assert(std::randomize(wrt_data));
+      operation_fd(reg_blk.config_inst, wrt_data, "CONFIG_REG");
+      operation_bd(reg_blk.config_inst, wrt_data , "CONFIG_REG");
+      combo1(reg_blk.config_inst, wrt_data, "CONFIG_REG");
+      combo2(reg_blk.config_inst, wrt_data, "CONFIG_REG");
+    end
+    //----------------------------------------------------------//
+
   endtask
   
-  task operation_fd(uvm_reg rg, uvm_reg_data_t wr_data, string name);
-    
+  //-------------------------------- FRONTDOOR ACCESS -------------------------------//
+  task operation_fd(uvm_reg rg,uvm_reg_data_t wr_data,string name);
+    $display("--------------------FRONTDOOR WRITE--------------------");
+
     // WRITE
-    repeat(1) begin
-      rdata_dv = rg.get();  
+    repeat (1) begin
+      rdata_dv = rg.get();
       rdata_mv = rg.get_mirrored_value();
-      `uvm_info(get_type_name(),
-        $sformatf("[WRITE-%s][FD] Initial desired=%0d mirror=%0d",
-                  name, rdata_dv, rdata_mv), UVM_LOW);
-        
+      `uvm_info(get_type_name(),$sformatf("[WRITE-%s][FD] Initial desired=%0d mirror=%0d",name, rdata_dv, rdata_mv),UVM_LOW);
       rg.write(status, wr_data, UVM_FRONTDOOR);
 
-      rdata_dv = rg.get();        
+      rdata_dv = rg.get();
       rdata_mv = rg.get_mirrored_value();
-      `uvm_info(get_type_name(),
-        $sformatf("[WRITE-%s][FD] After desired=%0d mirror=%0d",
-                  name, rdata_dv, rdata_mv), UVM_LOW);
+      `uvm_info(get_type_name(),$sformatf("[WRITE-%s][FD] After desired=%0d mirror=%0d",name, rdata_dv, rdata_mv),UVM_LOW);
     end
-    
+
     // READ
-    repeat(1) begin
+    $display("--------------------FRONTDOOR READ--------------------");
+    repeat (1) begin
       rg.read(status, read_data, UVM_FRONTDOOR);
+
       rdata_dv = rg.get();
       rdata_mv = rg.get_mirrored_value();
-      rg.mirror(status, UVM_CHECK);
-      `uvm_info(get_type_name(),
-        $sformatf("[READ-%s][FD] After desired=%0d mirror=%0d",
-                  name, rdata_dv, rdata_mv), UVM_LOW);
+      `uvm_info(get_type_name(),$sformatf("[READ-%s][FD] After desired=%0d mirror=%0d",name, rdata_dv, rdata_mv),UVM_LOW);
     end
   endtask
-  
-  task operation_bd(uvm_reg rg, uvm_reg_data_t wr_data, string name);
-        
+
+
+  //-------------------------------- BACKDOOR ACCESS --------------------------------//
+  task operation_bd(uvm_reg rg,uvm_reg_data_t wr_data,string name);
+    $display("--------------------BACKDOOR WRITE--------------------");
+
     // WRITE
-    repeat(1) begin
-      rdata_dv = rg.get();  
+    repeat (1) begin
+      rdata_dv = rg.get();
       rdata_mv = rg.get_mirrored_value();
-      `uvm_info(get_type_name(),
-                $sformatf("[WRITE-%s][BD] Initial desired=%0d mirror=%0d",
-                  name, rdata_dv, rdata_mv), UVM_LOW);
+      `uvm_info(get_type_name(), $sformatf("[WRITE-%s][BD] Initial desired=%0d mirror=%0d",name, rdata_dv, rdata_mv),UVM_LOW);
+
+      rg.write(status, wr_data, UVM_BACKDOOR);
+      rdata_dv = rg.get();
+      rdata_mv = rg.get_mirrored_value();
+      `uvm_info(
+        get_type_name(),
+        $sformatf("[WRITE-%s][BD] After desired=%0d mirror=%0d",
+                  name, rdata_dv, rdata_mv),
+        UVM_LOW
+      );
+    end
+
+    // READ
+    $display("--------------------BACKDOOR READ--------------------");
+    repeat (1) begin
+      rg.read(status, read_data, UVM_BACKDOOR);
+      $display("[%s] Got data %0d", name, read_data);
+      rdata_dv = rg.get();
+      rdata_mv = rg.get_mirrored_value();
+      `uvm_info(get_type_name(),$sformatf("[READ-%s][BD] After desired=%0d mirror=%0d",name, rdata_dv, rdata_mv),UVM_LOW);
+    end
+  endtask
+
+
+  //---------------- BACKDOOR WRITE + FRONTDOOR READ -------------------------------//
+  task combo1(uvm_reg rg,uvm_reg_data_t wr_data,string name);
+    $display("----------------------BACKDOOR WRITE--------------------");
+
+    // WRITE
+    repeat (1) begin
+      rdata_dv = rg.get();
+      rdata_mv = rg.get_mirrored_value();
+      `uvm_info(get_type_name(),$sformatf("[WRITE-%s][BD] Initial desired=%0d mirror=%0d", name, rdata_dv, rdata_mv), UVM_LOW);
+
+      rg.write(status, wr_data, UVM_BACKDOOR);
+      rdata_dv = rg.get();
+      rdata_mv = rg.get_mirrored_value();
+      `uvm_info(get_type_name(),$sformatf("[WRITE-%s][BD] After desired=%0d mirror=%0d", name, rdata_dv, rdata_mv),UVM_LOW);
+    end
+
+    // READ
+    $display("----------------------FRONTDOOR READ--------------------");
+    repeat (1) begin
+      rg.read(status, read_data, UVM_FRONTDOOR);
+      $display("[%s] Got data %0d", name, read_data);
+
+      rdata_dv = rg.get();
+      rdata_mv = rg.get_mirrored_value();
+      `uvm_info(
+        get_type_name(),
+        $sformatf("[READ-%s][FD] after desired=%0d mirror=%0d",
+                  name, rdata_dv, rdata_mv),
+        UVM_LOW
+      );
+    end
+  endtask
+
+
+  //---------------- FRONTDOOR WRITE + BACKDOOR READ -------------------------------//
+  task combo2(
+    uvm_reg        rg,
+    uvm_reg_data_t wr_data,
+    string         name
+  );
+    $display("--------------------FRONTDOOR WRITE--------------------");
+
+    // WRITE
+    repeat (1) begin
+      rdata_dv = rg.get();
+      rdata_mv = rg.get_mirrored_value();
+      `uvm_info(
+        get_type_name(),
+        $sformatf("[WRITE-%s][FD] Initial desired=%0d mirror=%0d",
+                  name, rdata_dv, rdata_mv),
+        UVM_LOW
+      );
 
       rg.write(status, wr_data, UVM_FRONTDOOR);
 
-      rdata_dv = rg.get();        
+      rdata_dv = rg.get();
       rdata_mv = rg.get_mirrored_value();
-      `uvm_info(get_type_name(),
-                $sformatf("[WRITE-%s][BD] After desired=%0d mirror=%0d",
-                  name, rdata_dv, rdata_mv), UVM_LOW);
+      `uvm_info(
+        get_type_name(),
+        $sformatf("[WRITE-%s][FD] After desired=%0d mirror=%0d",
+                  name, rdata_dv, rdata_mv),
+        UVM_LOW
+      );
     end
-    
+
     // READ
-    repeat(1) begin
+    $display("----------------------BACKDOOR READ--------------------");
+    repeat (1) begin
       rg.read(status, read_data, UVM_BACKDOOR);
-      //$display("[%s] Got data %0d", name, read_data);
 
       rdata_dv = rg.get();
       rdata_mv = rg.get_mirrored_value();
-
-      rg.mirror(status, UVM_CHECK);
-
-      `uvm_info(get_type_name(),
-        $sformatf("[READ-%s][BD] after desired=%0d mirror=%0d",
-                  name, rdata_dv, rdata_mv), UVM_LOW);
+      `uvm_info(
+        get_type_name(),
+        $sformatf("[READ-%s][BD] After desired=%0d mirror=%0d",
+                  name, rdata_dv, rdata_mv),
+        UVM_LOW
+      );
     end
   endtask
 
 endclass
 
+//-------------peak poke sequence class--------------//
+class peak_poke_seq extends uvm_sequence#(dma_seq_item);
+  `uvm_object_utils(peak_poke_seq)
+  
+  my_reg_block reg_blk;
+  uvm_status_e status;
+  uvm_reg_data_t rdata_dv, rdata_mv;
+  uvm_reg_data_t read_data;
+  uvm_reg_data_t wrt_data;
+  
+  
+  function new(string name="");
+    super.new(name);
+  endfunction
+  
+    virtual task body();
+
+    //--------------- MEM ADDR REG (RW) ------------------------//
+    repeat (10)  begin
+      #30;
+      assert(std::randomize(wrt_data));
+      peak_poke(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
+    end
+    //----------------------------------------------------------//
+
+    //--------------- INTR ADDR REG (RW) -----------------------//
+    repeat (10)  begin
+      assert(std::randomize(wrt_data) with {wrt_data inside {[32'h0 : 32'hFFFF]};});
+      peak_poke(reg_blk.intr_inst, wrt_data, "INTR_REG");
+    end
+    //----------------------------------------------------------//
+
+    //--------------- CTRL ADDR REG (RW) -----------------------//
+    repeat (1) begin
+      assert(std::randomize(wrt_data));
+      peak_poke(reg_blk.ctrl_inst,wrt_data, "CTRL_ADDR");
+    end
+    //----------------------------------------------------------//
+
+    //--------------- IO ADDR REG (RW) -------------------------//
+    repeat (1) begin
+      assert(std::randomize(wrt_data));
+      peak_poke(reg_blk.io_addr_inst,wrt_data, "IO_ADDR");
+    end
+    //----------------------------------------------------------//
+
+    //--------------- TRANSFER COUNT REG (RO) -----------------//
+    repeat (1) begin
+      assert(std::randomize(wrt_data));
+      peak_poke(reg_blk.transfer_count_inst,wrt_data, "TRANSFER_COUNT");
+    end
+    //----------------------------------------------------------//
+
+    //--------------- DESCRIPTOR REG (RW) ---------------------//
+    repeat (1) begin
+      assert(std::randomize(wrt_data));
+      peak_poke(reg_blk.descriptor_addr_inst,wrt_data, "DESCRIPTOR_REG");
+    end
+    //----------------------------------------------------------//
+
+    //--------------- EXTRA INFO REG ---------------------------//
+    repeat (1) begin
+      assert(std::randomize(wrt_data));
+      peak_poke(reg_blk.extra_info_inst,wrt_data, "EXTRA_INFO");
+    end
+    //----------------------------------------------------------//
+
+    //--------------- STATUS REG (RO) --------------------------//
+    repeat (1) begin
+      assert(std::randomize(wrt_data));
+      peak_poke(reg_blk.status_inst, wrt_data, "STATUS_REG");
+    end
+    //----------------------------------------------------------//
+
+    //--------------- ERROR STATUS REG (W1C) ------------------//
+    repeat (1) begin
+      assert(std::randomize(wrt_data));
+      peak_poke(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
+    end
+    //----------------------------------------------------------//
+
+    //--------------- CONFIG REG (RW) --------------------------//
+    repeat (1) begin
+      assert(std::randomize(wrt_data));
+      peak_poke(reg_blk.config_inst, wrt_data, "CONFIG_REG");
+    end
+    //----------------------------------------------------------//
+
+  endtask
+  
+   //--------------------------------------peak poke---------------------------//
+    task peak_poke(uvm_reg rg, uvm_reg_data_t wr_data, string name);
+        
+    // WRITE
+      $display("--------------------POKE--------------------");
+      repeat(1) 
+        begin
+          rdata_dv = rg.get();  
+          rdata_mv = rg.get_mirrored_value();
+          `uvm_info(get_type_name(),$sformatf("[POKE-%s][BD] Initial desired=%0d mirror=%0d",name, rdata_dv, rdata_mv), UVM_LOW);
+
+          rg.poke(status, wr_data);
+          rdata_dv = rg.get();        
+          rdata_mv = rg.get_mirrored_value();
+          `uvm_info(get_type_name(), $sformatf("[POKE-%s][BD] After desired=%0d mirror=%0d",name, rdata_dv, rdata_mv), UVM_LOW);
+    end
+    
+    // READ
+      $display("----------------------PEEK--------------------");
+    repeat(1) 
+      begin
+        rg.peek(status, read_data);
+        $display("[%s] Got data %0d", name, read_data);
+
+        rdata_dv = rg.get();
+        rdata_mv = rg.get_mirrored_value();
+     // rg.mirror(status, UVM_CHECK);
+        `uvm_info(get_type_name(),$sformatf("[PEEK-%s][BD] After desired=%0d mirror=%0d",name, rdata_dv, rdata_mv), UVM_LOW);
+    end
+  endtask
+  
+endclass
+
+//------------regression sequence------------//
+class regression_seq extends uvm_sequence #(dma_seq_item);
+  `uvm_object_utils(regression_seq)
+
+  my_reg_block   reg_blk;
+  main_seq       seq1;
+  peak_poke_seq  seq2;
+
+  function new(string name="regression_seq");
+    super.new(name);
+  endfunction
+
+  virtual task body();
+
+    // ---------------- CREATE ----------------
+    seq1 = main_seq::type_id::create("seq1");
+    seq2 = peak_poke_seq::type_id::create("seq2");
+
+    // ---------------- PASS REG MODEL ----------------
+    seq1.reg_blk = reg_blk;
+    seq2.reg_blk = reg_blk;
+
+    // ---------------- RUN SEQUENCES ----------------
+    `uvm_info(get_type_name(), "Starting main_seq", UVM_LOW)
+    seq1.start(m_sequencer);
+
+    `uvm_info(get_type_name(), "Starting peak_poke_seq", UVM_LOW)
+    seq2.start(m_sequencer);
+
+  endtask
+endclass
