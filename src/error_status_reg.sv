@@ -1,9 +1,6 @@
 class error_status_reg extends uvm_reg;
   `uvm_object_utils(error_status_reg)
-  
-  function new(string name="");
-    super.new(name,32,UVM_NO_COVERAGE);
-  endfunction
+
 
   rand uvm_reg_field bus_error;
   rand uvm_reg_field timeout_error;
@@ -13,6 +10,24 @@ class error_status_reg extends uvm_reg;
   rand uvm_reg_field reserved;
   rand uvm_reg_field error_code;
   rand uvm_reg_field error_addr_offset;
+  
+  covergroup error_status_cov;
+    option.per_instance = 1;
+    coverpoint bus_error.value;
+    coverpoint timeout_error.value;
+    coverpoint alignment_error.value;
+    coverpoint overflow_error.value;
+    coverpoint underflow_error.value;
+    coverpoint reserved.value;
+    coverpoint error_code.value;
+    coverpoint error_addr_offset.value;
+  endgroup
+    
+  function new(string name="");
+    super.new(name,32,UVM_CVR_FIELD_VALS);
+    if (has_coverage(UVM_CVR_FIELD_VALS))
+      error_status_cov=new();
+  endfunction
   
   function void build();
     bus_error = uvm_reg_field::type_id::create("bus_error");
