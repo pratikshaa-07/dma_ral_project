@@ -1,6 +1,7 @@
-`include "uvm_macros.svh"
 package dma_pkg;
   import uvm_pkg::*;
+  `include "uvm_macros.svh"
+
   `include "seq_item.sv"
   `include "sequencer.sv"
   `include "driver.sv"
