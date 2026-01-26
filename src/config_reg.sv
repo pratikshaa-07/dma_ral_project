@@ -109,4 +109,3 @@ class config_reg extends uvm_reg;
     );
   endfunction
 endclass
-
