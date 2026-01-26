@@ -3,8 +3,7 @@ class adapter extends uvm_reg_adapter;
   function new(string name="");
     super.new(name);
   endfunction
-
-  //reg 2 bus covertion (for sending it to sequencer)
+  
   function uvm_sequence_item reg2bus(const ref uvm_reg_bus_op rw);
     dma_seq_item bus_req;
     bus_req   = dma_seq_item::type_id::create("bus");
@@ -14,8 +13,7 @@ class adapter extends uvm_reg_adapter;
     bus_req.rd_en = (rw.kind == UVM_READ)  ? 1'b1 : 1'b0;
     return bus_req;
   endfunction
-
-  //bus 2 reg convertion (for sending it to reg modle through predictor)
+  
   function void bus2reg(uvm_sequence_item bus_item,ref uvm_reg_bus_op rw);
     dma_seq_item bus_req;
     assert($cast(bus_req, bus_item));
@@ -32,5 +30,4 @@ class adapter extends uvm_reg_adapter;
     rw.addr   = bus_req.addr;
     rw.status = UVM_IS_OK;
   endfunction
-  
 endclass
