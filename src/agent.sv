@@ -18,10 +18,7 @@ class agent extends uvm_agent;
 
   function void connect_phase(uvm_phase phase);
     super.connect_phase(phase);
-    //sequencer to driver connection
     drv.seq_item_port.connect(seqr.seq_item_export);
   endfunction
-  
 endclass
-
 
