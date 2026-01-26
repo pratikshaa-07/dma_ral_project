@@ -1,10 +1,16 @@
+`include "uvm_macros.svh"
+`include "pacakage.sv"
 `include "interface.sv"
-`include "package.sv"
+`include "design.sv"
 
-import uvm_pkg::*;
-import dma_pkg::*;
+ import uvm_pkg::*;
+ import dma_pkg::*;
 
-module tb;
+module top;
+
+ // import uvm_pkg::*;
+ // import dma_pkg::*;
+
   bit clk = 0;
   bit rst_n;
 
@@ -23,8 +29,8 @@ module tb;
   initial 
     begin
       uvm_config_db#(virtual inf)::set(null,"*","vif",intf);
-      $dumpfile("dump.vcd");
-      $dumpvars;
+ //     $dumpfile("dump.vcd");
+ //     $dumpvars;
     end
   
   initial

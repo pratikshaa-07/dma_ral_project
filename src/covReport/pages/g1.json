@@ -1,0 +1,26 @@
+var g_data = {
+g1468:[{dummy:0},
+{name:'covg',f:1,type:1,id:1473,tb:'68',h:'53',m:'15',hp:'77.94%',cov:['78.75%','Y'],g:'100.00%',gp:['78.75%','Y'],opts:[[],['merge_instance','auto(true)']],parent:'1468'}],
+c1473:{name:'covg',type:1,pHash:'1468',pPath:'/dma_pkg/subscriber',totals:[24,19,'79.16%','Y',44,34,'77.27%','Y'],cvp:[{dummy:0},
+{name:'WR_EN',f:1,type:4,id:1474,tb:'2',h:'2',m:'0',hp:'100.00%',cov:['100.00%','G'],g:'100.00%',gp:['100.00%','G'],hasb:1,parent:'1473'},
+{name:'RD_EN',f:1,type:4,id:1475,tb:'2',h:'2',m:'0',hp:'100.00%',cov:['100.00%','G'],g:'100.00%',gp:['100.00%','G'],hasb:1,parent:'1473'},
+{name:'WDATA',f:1,type:4,id:1476,tb:'5',h:'3',m:'2',hp:'60.00%',cov:['60.00%','Y'],g:'100.00%',gp:['60.00%','Y'],hasb:1,parent:'1473'},
+{name:'RDATA',f:1,type:4,id:1477,tb:'5',h:'4',m:'1',hp:'80.00%',cov:['80.00%','Y'],g:'100.00%',gp:['80.00%','Y'],hasb:1,parent:'1473'},
+{name:'ADDR',f:1,type:4,id:1478,tb:'10',h:'8',m:'2',hp:'80.00%',cov:['80.00%','Y'],g:'100.00%',gp:['80.00%','Y'],hasb:1,parent:'1473'}],crx:[{dummy:0},
+{name:'#cross__0#',f:1,type:5,id:1479,tb:'4',h:'2',m:'2',hp:'50.00%',cov:['50.00%','Y'],g:'100.00%',gp:['50.00%','Y'],hasb:1,parent:'1473',cross:['RD_EN','WR_EN']},
+{name:'#cross__1#',f:1,type:5,id:1480,tb:'20',h:'16',m:'4',hp:'80.00%',cov:['80.00%','Y'],g:'100.00%',gp:['80.00%','Y'],hasb:1,parent:'1473',cross:['ADDR','RD_EN']},
+{name:'#cross__2#',f:1,type:5,id:1481,tb:'20',h:'16',m:'4',hp:'80.00%',cov:['80.00%','Y'],g:'100.00%',gp:['80.00%','Y'],hasb:1,parent:'1473',cross:['ADDR','WR_EN']}]},
+g1980:[{dummy:0},
+{name:'covg',f:1,type:1,id:1985,tb:'68',h:'53',m:'15',hp:'77.94%',cov:['78.75%','Y'],g:'100.00%',gp:['78.75%','Y'],opts:[[],['merge_instance','true']],parent:'1980'}],
+c1985:{name:'covg',type:1,pHash:'1980',pPath:'work.dma_pkg::subscriber',totals:[24,19,'79.16%','Y',44,34,'77.27%','Y'],cvp:[{dummy:0},
+{name:'WR_EN',f:1,type:4,id:1986,tb:'2',h:'2',m:'0',hp:'100.00%',cov:['100.00%','G'],g:'100.00%',gp:['100.00%','G'],hasb:1,parent:'1985'},
+{name:'RD_EN',f:1,type:4,id:1987,tb:'2',h:'2',m:'0',hp:'100.00%',cov:['100.00%','G'],g:'100.00%',gp:['100.00%','G'],hasb:1,parent:'1985'},
+{name:'WDATA',f:1,type:4,id:1988,tb:'5',h:'3',m:'2',hp:'60.00%',cov:['60.00%','Y'],g:'100.00%',gp:['60.00%','Y'],hasb:1,parent:'1985'},
+{name:'RDATA',f:1,type:4,id:1989,tb:'5',h:'4',m:'1',hp:'80.00%',cov:['80.00%','Y'],g:'100.00%',gp:['80.00%','Y'],hasb:1,parent:'1985'},
+{name:'ADDR',f:1,type:4,id:1990,tb:'10',h:'8',m:'2',hp:'80.00%',cov:['80.00%','Y'],g:'100.00%',gp:['80.00%','Y'],hasb:1,parent:'1985'}],crx:[{dummy:0},
+{name:'#cross__0#',f:1,type:5,id:1991,tb:'4',h:'2',m:'2',hp:'50.00%',cov:['50.00%','Y'],g:'100.00%',gp:['50.00%','Y'],hasb:1,parent:'1985',cross:['RD_EN','WR_EN']},
+{name:'#cross__1#',f:1,type:5,id:1992,tb:'20',h:'16',m:'4',hp:'80.00%',cov:['80.00%','Y'],g:'100.00%',gp:['80.00%','Y'],hasb:1,parent:'1985',cross:['ADDR','RD_EN']},
+{name:'#cross__2#',f:1,type:5,id:1993,tb:'20',h:'16',m:'4',hp:'80.00%',cov:['80.00%','Y'],g:'100.00%',gp:['80.00%','Y'],hasb:1,parent:'1985',cross:['ADDR','WR_EN']}]},
+dummyEnd:0
+};
+processCovergroupsData(g_data);
