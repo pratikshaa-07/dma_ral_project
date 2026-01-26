@@ -4,7 +4,7 @@ class monitor extends uvm_monitor;
   dma_seq_item req;
   static int i;
   
-  uvm_analysis_port#(seq_item) send_port;
+  uvm_analysis_port#(dma_seq_item) send_port;
   
   `uvm_component_utils(monitor)
   
@@ -22,22 +22,7 @@ class monitor extends uvm_monitor;
   endfunction
   
 
-  
-  task mon();
-    req = dma_seq_item::type_id::create("req", this);
-
-    req.addr  = vif.mon_cb.addr;
-    req.wr_en  = vif.mon_cb.wr_en;
-    req.rd_en = vif.mon_cb.rd_en;
-    req.wdata = vif.mon_cb.wdata;
-    req.radta = vif.mon_cb.rdata;
     
-    `uvm_info("MONITOR", $sformatf("[MON-%0d] Got wr_en=%0d | rd_en=%0d | addr=%0d | wdata=%0d | rdata = %0d",i,req.wr_enreq.rd_en,req.addr,req.wdata,req.rdata), UVM_LOW)
-
-    //writing into analysis port using write method
-    send_port.write(req);
-  endtask
-  
   task run_phase(uvm_phase phase);
     super.run_phase(phase);
     repeat(4) @(vif.mon_cb);
@@ -49,5 +34,18 @@ class monitor extends uvm_monitor;
     end
   endtask
   
-endclass
+  task mon();
+    req = dma_seq_item::type_id::create("req", this);
+    req.addr  = vif.mon_cb.addr;
+    req.wr_en = vif.mon_cb.wr_en;
+    req.rd_en = vif.mon_cb.rd_en;
+    req.wdata = vif.mon_cb.wdata;
+    req.rdata = vif.mon_cb.rdata;
+    `uvm_info("MONITOR", $sformatf("[MON-%0d] Got wr_en=%0d | rd_en=%0d | addr=%0h | wdata=%0d | rdata = %0d",i,req.wr_en,req.rd_en,req.addr,req.wdata,req.rdata), UVM_LOW)
 
+    send_port.write(req);
+
+  endtask
+
+  
+endclass
