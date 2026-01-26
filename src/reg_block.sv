@@ -104,8 +104,8 @@ class my_reg_block extends uvm_reg_block;
 
     default_map = create_map("default_map",0,4,UVM_LITTLE_ENDIAN);
     default_map.add_reg(mem_addr_inst,'h40C, "RW");
-    default_map.add_reg(extra_info_inst,'h004, "RW");
-    default_map.add_reg(status_inst,'h008, "RO");
+    default_map.add_reg(extra_info_inst,'h410, "RW");
+    default_map.add_reg(status_inst,'h414, "RO");
     default_map.add_reg(intr_inst,'h400, "RW");
     default_map.add_reg(ctrl_inst,'h404, "RW");  
     default_map.add_reg(io_addr_inst,'h408, "RW");
