@@ -28,4 +28,3 @@ class ctrl_reg extends uvm_reg;
   
 endclass
 
-
