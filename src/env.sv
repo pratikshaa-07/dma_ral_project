@@ -5,19 +5,22 @@ class environment extends uvm_env;
   my_reg_block regmodel;
   adapter adapt;
   uvm_reg_predictor#(dma_seq_item) predict;
-//   dma_coverage cov;
-
+  subscriber sub;
+  
+  
   function new(string name = "", uvm_component parent);
     super.new(name, parent);
   endfunction
 
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
-    agt=agent::type_id::create("agt", this);
+    agt     = agent::type_id::create("agt", this);
+    sub     = subscriber::type_id::create("sub",this);
+    
     regmodel= my_reg_block::type_id::create("regmodel", this);
     regmodel.build();
-    //regmodel.default_map.set_auto_predict(0);
-    adapt = adapter::type_id::create("adapt");
+    
+    adapt   = adapter::type_id::create("adapt");
     predict = uvm_reg_predictor#(dma_seq_item)::type_id::create("predict", this);
   endfunction
 
@@ -34,6 +37,10 @@ function void connect_phase(uvm_phase phase);
   predict.map     = regmodel.default_map;
   predict.adapter = adapt;
   agt.mon.send_port.connect(predict.bus_in);
+  
+  //monitor to subscriber
+  agt.mon.send_port.connect(sub.inp_fifo.analysis_export);
+  
 endfunction
 
 endclass
