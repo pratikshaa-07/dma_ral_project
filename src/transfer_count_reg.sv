@@ -3,9 +3,27 @@ class transfer_count_reg extends uvm_reg;
   
   rand uvm_reg_field transfer_count;
   
+   covergroup transfer_count_cov;
+    option.per_instance=1;
+    coverpoint transfer_count.value;
+  endgroup
+  
   function new(string name="");
-    super.new(name,32,UVM_NO_COVERAGE);
+    super.new(name,32,UVM_CVR_FIELD_VALS);
+    if(has_coverage(UVM_CVR_FIELD_VALS))
+      transfer_count_cov=new();
   endfunction
+  
+  
+  virtual function void sample(uvm_reg_data_t data,uvm_reg_data_t byte_en,bit is_read,uvm_reg_map map);
+    transfer_count_cov.sample();
+  endfunction
+  
+  virtual function void sample_values();
+    super.sample_values();
+    transfer_count_cov.sample();
+  endfunction
+  
   
   function void build();
     
@@ -13,4 +31,3 @@ class transfer_count_reg extends uvm_reg;
     
   endfunction
 endclass
-
