@@ -5,7 +5,11 @@ class descriptor_addr_reg extends uvm_reg;
   
   covergroup descriptor_cov;
     option.per_instance=1;
-    coverpoint descriptor_addr.value;
+    coverpoint descriptor_addr.value{
+      bins low = {[0:500]};
+      bins mid = {[501:1000]};
+      bins high = {[1001:$]};
+    }
   endgroup
   
   function new(string name="");
