@@ -9,10 +9,16 @@ class ctrl_reg extends uvm_reg;
   
   covergroup ctrl_cov;
    option.per_instance=1;
-   coverpoint start_dma.value;
-   coverpoint w_count.value;
-   coverpoint io_mem.value;
-   coverpoint reserved.value; 
+    coverpoint start_dma.value{
+    bins bin0 = {0};
+  }
+   coverpoint w_count.value{
+    bins data = {[2:$]};
+  }
+   coverpoint io_mem.value{
+    bins io_to_mem = {0};
+    bins mem_to_io = {1};
+  }
   endgroup
   
   function new(string name="");
