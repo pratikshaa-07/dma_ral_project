@@ -5,7 +5,11 @@ class extra_info_reg extends uvm_reg;
   
   covergroup extra_cov;
     option.per_instance=1;
-    coverpoint extra_info.value; 
+    coverpoint extra_info.value{
+      bins low = {[0:500]};
+      bins mid = {[501:1000]};
+      bins high = {[1001:$]};
+    } 
   endgroup
   
   function new(string name="");
