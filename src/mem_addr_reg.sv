@@ -5,7 +5,11 @@ class mem_addr_reg extends uvm_reg;
   
   covergroup mem_addr_cov;
    option.per_instance=1;
-   coverpoint mem_addr.value; 
+   coverpoint mem_addr.value{
+      bins low = {[0:500]};
+      bins mid = {[501:1000]};
+      bins high = {[1001:$]};
+   } 
   endgroup
   
   function new(string name="");
