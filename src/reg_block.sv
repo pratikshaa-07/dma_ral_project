@@ -17,7 +17,7 @@ class my_reg_block extends uvm_reg_block;
   rand config_reg          config_inst;
   
   function void build();
-    add_hdl_path("tb.dut","RTL");
+    //add_hdl_path("dut","RTL");
     uvm_reg::include_coverage("*",UVM_CVR_ALL);
     
     intr_inst = intr_reg::type_id::create("intr_inst");

@@ -1,41 +1,77 @@
-
-
 QUESTA := /home/share/questa.csh
-SHELL := /bin/csh
+SHELL  := /bin/csh
 
-IGNORE:
-	make clean
-	make view
+TOP := top
 
 .ONESHELL:
 
+# -------------------------------------------------
+# Default target
+# -------------------------------------------------
 all:
-	source $(QUESTA)
-	make clean
-	make compile
-	make simulate
+	 source $(QUESTA)
+	 make clean
+	 make compile
+	 make simulate
 
-main:
-	source $(QUESTA)
-	make clean
-	vlog -sv +acc +cover +fcover +define top.sv "+incdir+/tools/mentor/questasim_10.6c/questasim/uvm-1.1d/../verilog_src/uvm-1.1d/src"
-	vsim -vopt work.top -voptargs=+acc=npr -assertdebug -l simulation.log -coverage -c -do "coverage save -onexit -assert -directive -cvg -codeAll coverage.ucdb; run -all; exit"
-	vcover report -html coverage.ucdb -htmldir covReport -details
-
-read:
-	source $(QUESTA)
-	vcover report -details coverage.ucdb
-
-view:
-	firefox ./covReport/index.html
-
+# -------------------------------------------------
+# Compile
+# -------------------------------------------------
 compile:
-	vlog -sv top.sv
+	 source $(QUESTA)
+	 vlib work
+	 vmap work work
+	 vlog -sv top.sv
 
+# -------------------------------------------------
+# Simulate (no coverage)
+# -------------------------------------------------
 simulate:
-	vsim -c top +UVM_VERBOSITY=UVM_MEDIUM -do "run -all;exit"
+	 source $(QUESTA)
+	 vsim -c work.$(TOP) \
+	  +UVM_VERBOSITY=UVM_MEDIUM \
+	  -do "run -all; exit"
 
+# -------------------------------------------------
+# Simulate with coverage
+# -------------------------------------------------
+main:
+	 source $(QUESTA)
+	 make clean
+	 vlib work
+	 vmap work work
+	 vlog -sv +acc +cover +fcover -l dma_top.log top.sv
+	 vsim -vopt work.$(TOP) \
+	  -voptargs="+acc=npr" \
+	  -assertdebug \
+	  -l simulation.log \
+	  -coverage \
+	  -c \
+	  -do "coverage save -onexit -assert -directive -cvg -codeAll coverage.ucdb; run -all; exit"
+	 vcover report -html coverage.ucdb -htmldir covReport -details
+
+# -------------------------------------------------
+# Coverage read
+# -------------------------------------------------
+read:
+	 source $(QUESTA)
+	 vcover report -details coverage.ucdb
+
+# -------------------------------------------------
+# View coverage
+# -------------------------------------------------
+view:
+	 firefox ./covReport/index.html &
+
+# -------------------------------------------------
+# View log
+# -------------------------------------------------
+log:
+	 less -R simulation.log
+
+# -------------------------------------------------
+# Clean
+# -------------------------------------------------
 clean:
-	rm -rf transcript work/
-	clear
-	clear
+	 rm -rf work transcript *.log *.ucdb covReport wave.vcd
+	 clear

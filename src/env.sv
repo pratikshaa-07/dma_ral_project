@@ -16,9 +16,10 @@ class environment extends uvm_env;
     super.build_phase(phase);
     agt     = agent::type_id::create("agt", this);
     sub     = subscriber::type_id::create("sub",this);
-    
+    //regmodel.set_hdl_path_root("top.dut");
     regmodel= my_reg_block::type_id::create("regmodel", this);
     regmodel.build();
+    regmodel.set_hdl_path_root("top.dut");
     
     adapt   = adapter::type_id::create("adapt");
     predict = uvm_reg_predictor#(dma_seq_item)::type_id::create("predict", this);

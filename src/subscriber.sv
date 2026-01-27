@@ -43,7 +43,10 @@ class subscriber extends uvm_component;
       bins configer        = {32'h424};
     }
 
-    cross RD_EN,WR_EN;
+    cross RD_EN,WR_EN {
+        ignore_bins ig = binsof(RD_EN) intersect {0} && binsof(WR_EN) intersect {0};
+    ignore_bins ig2 = binsof(RD_EN) intersect {1} && binsof(WR_EN) intersect {1};
+    }
     cross ADDR,RD_EN;
     cross ADDR,WR_EN;
       

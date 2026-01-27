@@ -1,9 +1,0 @@
-QuestaSim vlog 10.6c Compiler 2017.07 Jul 25 2017
-Start time: 21:10:05 on Jan 26,2026
-vlog -sv "+acc" "+cover" "+fcover" -l top.log top.sv 
--- Compiling interface inf
-** Error: top.sv(2): Cannot find `include file "package.sv" in directories:
-    /tools/mentor/questasim_10.6c/questasim/ovm-2.1.2/../verilog_src/ovm-2.1.2/src, /tools/mentor/questasim_10.6c/questasim/uvm-1.1d/../verilog_src/uvm-1.1d/src
-** Error: top.sv(5): (vlog-13006) Could not find the package (dma_pkg).  Design read will continue, but expect a cascade of errors after this failure.  Furthermore if you experience a vopt-7 error immediately before this error then please check the package names or the library search paths on the command line.
-End time: 21:10:06 on Jan 26,2026, Elapsed time: 0:00:01
-Errors: 2, Warnings: 0
