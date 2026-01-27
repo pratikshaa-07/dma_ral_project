@@ -14,8 +14,14 @@ class config_reg extends uvm_reg;
   covergroup config_cov;
     option.per_instance = 1;
     coverpoint priorityy.value;
-    coverpoint auto_restart.value;
-    coverpoint interrupt_enable.value;
+    coverpoint auto_restart.value{
+      bins a1 = {0};
+      bins a2 = {1};
+    }
+    coverpoint interrupt_enable.value{
+      bins a3 = {0};
+      bins a4 = {1};
+    }
     coverpoint burst_size.value;
     coverpoint data_width.value;
     coverpoint descriptor_mode.value;
