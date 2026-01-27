@@ -6,8 +6,13 @@ class intr_reg extends uvm_reg;
   
   covergroup intr_cov;
    option.per_instance=1;
-   coverpoint intr_status.value;
-   coverpoint intr_mask.value;
+    coverpoint intr_status.value{
+      bins bin0 = {0};
+    }
+    coverpoint intr_mask.value{
+      bins bin1 = {1};
+      bins bin2 = {[2:$]};
+    }
   endgroup
   
   function new(string name="");
