@@ -5,7 +5,11 @@ class io_addr_reg extends uvm_reg;
   
   covergroup io_addr_cov;
     option.per_instance=1;
-    coverpoint io_addr.value; 
+    coverpoint io_addr.value{
+      bins low = {[0:500]};
+      bins mid = {[501:1000]};
+      bins high = {[1001:$]};
+    }
   endgroup
   
     virtual function void sample(uvm_reg_data_t data,
