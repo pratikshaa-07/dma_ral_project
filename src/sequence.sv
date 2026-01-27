@@ -16,298 +16,297 @@ class main_seq extends uvm_sequence;
 
   virtual task body();
 
-//    //--------------- MEM ADDR REG (RW) ------------------------//
-    repeat (1) begin   
+    //--------------- MEM ADDR REG (RW) ------------------------//
+    repeat (50) begin   
 
-//   // ---------------- LOW ----------------//
-//       repeat (1) begin
-//     assert(std::randomize(wrt_data) with {
-//       wrt_data inside {[0:500]};
-//     });
-//     operation_fd(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
-//     operation_bd(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
-//     combo1(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
-//     combo2(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
-//   end
+  // ---------------- LOW ----------------//
+      repeat (20) begin
+    assert(std::randomize(wrt_data) with {wrt_data inside {[0:500]};});
+    operation_fd(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
+    operation_bd(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
+    combo1(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
+    combo2(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
+  end
 
-//   // ---------------- MID ----------------//
-//   repeat (1) begin
-//     assert(std::randomize(wrt_data) with {
-//       wrt_data inside {[501:1000]};
-//     });
-//     operation_fd(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
-//     operation_bd(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
-//     combo1(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
-//     combo2(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
-//   end
+  // ---------------- MID ----------------//
+      repeat (20) begin
+    assert(std::randomize(wrt_data) with {
+      wrt_data inside {[501:1000]};
+    });
+    operation_fd(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
+    operation_bd(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
+    combo1(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
+    combo2(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
+  end
 
   // ---------------- MAX ----------------//
-  repeat (1) begin
+      repeat (20) begin
     assert(std::randomize(wrt_data) with {
       wrt_data inside {[1001:$]};
     });
     operation_fd(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
-    //operation_bd(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
-    //combo1(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
-    //combo2(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
+    operation_bd(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
+    combo1(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
+    combo2(reg_blk.mem_addr_inst, wrt_data, "MEM_ADDR");
   end
 
 end
 //      //----------------------------------------------------------//
 
 //     //--------------- INTR ADDR REG (RW) -----------------------//
-repeat (1) begin  
+    repeat (100) begin  
 
-//   // -------- LOW --------
-//   assert(std::randomize(wrt_data) with {
-//     wrt_data inside {[32'h0000 : 32'h3FFF]};
-//   });
-//   operation_fd(reg_blk.intr_inst, wrt_data, "INTR_REG");
-//   operation_bd(reg_blk.intr_inst, wrt_data, "INTR_REG");
-//   combo1(reg_blk.intr_inst, wrt_data, "INTR_REG");
-//   combo2(reg_blk.intr_inst, wrt_data, "INTR_REG");
+  // -------- LOW --------
+      
+  assert(std::randomize(wrt_data) with {
+    wrt_data inside {[32'h0000 : 32'h3FFF]};
+  });
+  operation_fd(reg_blk.intr_inst, wrt_data, "INTR_REG");
+  operation_bd(reg_blk.intr_inst, wrt_data, "INTR_REG");
+  combo1(reg_blk.intr_inst, wrt_data, "INTR_REG");
+  combo2(reg_blk.intr_inst, wrt_data, "INTR_REG");
 
-//   // -------- MID --------
-//   assert(std::randomize(wrt_data) with {
-//     wrt_data inside {[32'h4000 : 32'h7FFF]};
-//   });
-//   operation_fd(reg_blk.intr_inst, wrt_data, "INTR_REG");
-//   operation_bd(reg_blk.intr_inst, wrt_data, "INTR_REG");
-//   combo1(reg_blk.intr_inst, wrt_data, "INTR_REG");
-//   combo2(reg_blk.intr_inst, wrt_data, "INTR_REG");
+  // -------- MID --------
+  assert(std::randomize(wrt_data) with {
+    wrt_data inside {[32'h4000 : 32'h7FFF]};
+  });
+  operation_fd(reg_blk.intr_inst, wrt_data, "INTR_REG");
+  operation_bd(reg_blk.intr_inst, wrt_data, "INTR_REG");
+  combo1(reg_blk.intr_inst, wrt_data, "INTR_REG");
+  combo2(reg_blk.intr_inst, wrt_data, "INTR_REG");
 
 //   // -------- MAX --------
   assert(std::randomize(wrt_data) with {
     wrt_data inside {[32'h8000 : 32'hFFFF]};
   });
   operation_fd(reg_blk.intr_inst, wrt_data, "INTR_REG");
-//   operation_bd(reg_blk.intr_inst, wrt_data, "INTR_REG");
-//   combo1(reg_blk.intr_inst, wrt_data, "INTR_REG");
-//   combo2(reg_blk.intr_inst, wrt_data, "INTR_REG");
+  operation_bd(reg_blk.intr_inst, wrt_data, "INTR_REG");
+  combo1(reg_blk.intr_inst, wrt_data, "INTR_REG");
+  combo2(reg_blk.intr_inst, wrt_data, "INTR_REG");
 
 end
 
 //     //----------------------------------------------------------//
 
     //--------------- CTRL ADDR REG (RW) -----------------------//
-repeat (1) begin   
+    repeat (100) begin   
 
 //   // -------- LOW --------
   assert(std::randomize(wrt_data) with {
     wrt_data inside {[32'h0000 : 32'h00FF]};
   });
   operation_fd(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
-//   operation_bd(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
-//   combo1(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
-//   combo2(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
+  operation_bd(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
+  combo1(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
+  combo2(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
 
-//   // -------- MID --------
-//   assert(std::randomize(wrt_data) with {
-//     wrt_data inside {[32'h0100 : 32'h0FFF]};
-//   });
-//   operation_fd(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
-//   operation_bd(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
-//   combo1(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
-//   combo2(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
+  // -------- MID --------
+  assert(std::randomize(wrt_data) with {
+    wrt_data inside {[32'h0100 : 32'h0FFF]};
+  });
+  operation_fd(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
+  operation_bd(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
+  combo1(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
+  combo2(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
 
 //   // -------- MAX --------
-//   assert(std::randomize(wrt_data) with {
-//     wrt_data inside {[32'h1000 : 32'hFFFF]};
-//   });
-//   operation_fd(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
-//   operation_bd(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
-//   combo1(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
-//   combo2(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
+  assert(std::randomize(wrt_data) with {
+    wrt_data inside {[32'h1000 : 32'hFFFF]};
+  });
+  operation_fd(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
+  operation_bd(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
+  combo1(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
+  combo2(reg_blk.ctrl_inst, wrt_data, "CTRL_ADDR");
 
 end
 
     //----------------------------------------------------------//
 
 //     //--------------- IO ADDR REG (RW) -------------------------//
-    repeat (10) begin   // OUTER repeat loop
+    repeat (100) begin   // OUTER repeat loop
 
 //   // -------- LOW --------//
   assert(std::randomize(wrt_data) with {
     wrt_data inside {[32'h0000 : 32'h00FF]};
   });
   operation_fd(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
-//   operation_bd(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
-//   combo1(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
-//   combo2(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
+  operation_bd(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
+  combo1(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
+  combo2(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
 
 //   // -------- MID --------//
-//   assert(std::randomize(wrt_data) with {
-//     wrt_data inside {[32'h0100 : 32'h0FFF]};
-//   });
-//   operation_fd(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
-//   operation_bd(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
-//   combo1(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
-//   combo2(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
+  assert(std::randomize(wrt_data) with {
+    wrt_data inside {[32'h0100 : 32'h0FFF]};
+  });
+  operation_fd(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
+  operation_bd(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
+  combo1(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
+  combo2(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
 
 //   // -------- MAX --------//
-//   assert(std::randomize(wrt_data) with {
-//     wrt_data inside {[32'h1000 : 32'hFFFF]};
-//   });
-//   operation_fd(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
-//   operation_bd(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
-//   combo1(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
-//   combo2(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
+  assert(std::randomize(wrt_data) with {
+    wrt_data inside {[32'h1000 : 32'hFFFF]};
+  });
+  operation_fd(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
+  operation_bd(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
+  combo1(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
+  combo2(reg_blk.io_addr_inst, wrt_data, "IO_ADDR");
 
 end
 
 
     //----------------------------------------------------------//
 
-//     //--------------- TRANSFER COUNT REG (RO) -----------------//
-    repeat (1) begin
+    //--------------- TRANSFER COUNT REG (RO) -----------------//
+    repeat (100) begin
       assert(std::randomize(wrt_data));
       operation_fd(reg_blk.transfer_count_inst,wrt_data, "TRANSFER_COUNT");
-//       operation_bd(reg_blk.transfer_count_inst,wrt_data, "TRANSFER_COUNT");
-//       combo1     (reg_blk.transfer_count_inst,wrt_data, "TRANSFER_COUNT");
-//       combo2     (reg_blk.transfer_count_inst,wrt_data, "TRANSFER_COUNT");
+      operation_bd(reg_blk.transfer_count_inst,wrt_data, "TRANSFER_COUNT");
+      combo1     (reg_blk.transfer_count_inst,wrt_data, "TRANSFER_COUNT");
+      combo2     (reg_blk.transfer_count_inst,wrt_data, "TRANSFER_COUNT");
     end
     //----------------------------------------------------------//
 
-//     //--------------- DESCRIPTOR REG (RW) ---------------------//
-    repeat (1) begin  
+    //--------------- DESCRIPTOR REG (RW) ---------------------//
+    repeat (100) begin  
 
-//   // -------- LOW --------
+  // -------- LOW --------
   assert(std::randomize(wrt_data) with {
     wrt_data inside {[32'h0000 : 32'h03FF]};
   });
   operation_fd(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
-//   operation_bd(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
-//   combo1(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
-//   combo2(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
+  operation_bd(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
+  combo1(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
+  combo2(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
 
-//   // -------- MID --------
-//   assert(std::randomize(wrt_data) with {
-//     wrt_data inside {[32'h0400 : 32'h0FFF]};
-//   });
-//   operation_fd(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
-//   operation_bd(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
-//   combo1(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
-//   combo2(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
+  // -------- MID --------
+  assert(std::randomize(wrt_data) with {
+    wrt_data inside {[32'h0400 : 32'h0FFF]};
+  });
+  operation_fd(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
+  operation_bd(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
+  combo1(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
+  combo2(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
 
-//   // -------- MAX --------
-//   assert(std::randomize(wrt_data) with {
-//     wrt_data inside {[32'h1000 : 32'hFFFF]};
-//   });
-//   operation_fd(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
-//   operation_bd(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
-//   combo1(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
-//   combo2(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
+  // -------- MAX --------
+  assert(std::randomize(wrt_data) with {
+    wrt_data inside {[32'h1000 : 32'hFFFF]};
+  });
+  operation_fd(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
+  operation_bd(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
+  combo1(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
+  combo2(reg_blk.descriptor_addr_inst, wrt_data, "DESCRIPTOR_REG");
 
 end
 
-//     //----------------------------------------------------------//
+    //----------------------------------------------------------//
 
-//     //--------------- EXTRA INFO REG(RW) ---------------------------//
-  repeat (1) begin   // ONE outer repeat
+    //--------------- EXTRA INFO REG(RW) ---------------------------//
+    repeat (100) begin   
 
-//   // -------- LOW --------
+  // -------- LOW --------
   assert(std::randomize(wrt_data) with {
     wrt_data inside {[32'h0000 : 32'h00FF]};
   });
   operation_fd(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
-//   operation_bd(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
-//   combo1(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
-//   combo2(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
+  operation_bd(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
+  combo1(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
+  combo2(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
 
-//   // -------- MID --------
-//   assert(std::randomize(wrt_data) with {
-//     wrt_data inside {[32'h0100 : 32'h0FFF]};
-//   });
-//   operation_fd(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
-//   operation_bd(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
-//   combo1(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
-//   combo2(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
+  // -------- MID --------
+  assert(std::randomize(wrt_data) with {
+    wrt_data inside {[32'h0100 : 32'h0FFF]};
+  });
+  operation_fd(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
+  operation_bd(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
+  combo1(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
+  combo2(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
 
-//   // -------- MAX --------
-//   assert(std::randomize(wrt_data) with {
-//     wrt_data inside {[32'h1000 : 32'hFFFF]};
-//   });
-//   operation_fd(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
-//   operation_bd(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
-//   combo1(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
-//   combo2(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
+  // -------- MAX --------
+  assert(std::randomize(wrt_data) with {
+    wrt_data inside {[32'h1000 : 32'hFFFF]};
+  });
+  operation_fd(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
+  operation_bd(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
+  combo1(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
+  combo2(reg_blk.extra_info_inst, wrt_data, "EXTRA_INFO");
 
 end
 
     //----------------------------------------------------------//
 
-//     //--------------- STATUS REG (RO) --------------------------//
-    repeat (1) begin
+    //--------------- STATUS REG (RO) --------------------------//
+    repeat (100) begin
       assert(std::randomize(wrt_data));
       operation_fd(reg_blk.status_inst,wrt_data, "STATUS_REG");
-//       operation_bd(reg_blk.status_inst, wrt_data , "STATUS_REG");
-//       combo1     (reg_blk.status_inst,wrt_data, "STATUS_REG");
-//       combo2     (reg_blk.status_inst, wrt_data, "STATUS_REG");
+      operation_bd(reg_blk.status_inst, wrt_data , "STATUS_REG");
+      combo1     (reg_blk.status_inst,wrt_data, "STATUS_REG");
+      combo2     (reg_blk.status_inst, wrt_data, "STATUS_REG");
     end
     //----------------------------------------------------------//
 
     //--------------- ERROR STATUS REG (W1C) ------------------//
-repeat (1) begin   // OUTER repeat loop
+    repeat (100) begin   
 
 //   // -------- LOW --------
-//   assert(std::randomize(wrt_data) with {
-//     wrt_data inside {[32'h0000 : 32'h000F]};
-//   });
-//   operation_fd(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
-//   operation_bd(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
-//   combo1(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
-//   combo2(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
+  assert(std::randomize(wrt_data) with {
+    wrt_data inside {[32'h0000 : 32'h000F]};
+  });
+  operation_fd(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
+  operation_bd(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
+  combo1(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
+  combo2(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
 
-  // -------- MID --------
-//   assert(std::randomize(wrt_data) with {
-//     wrt_data inside {[32'h0010 : 32'h00FF]};
-//   });
-//   operation_fd(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
-//   operation_bd(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
-  //combo1(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
-  //combo2(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
+  -------- MID --------
+  assert(std::randomize(wrt_data) with {
+    wrt_data inside {[32'h0010 : 32'h00FF]};
+  });
+  operation_fd(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
+  operation_bd(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
+  combo1(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
+  combo2(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
 
   // -------- MAX --------
   assert(std::randomize(wrt_data) with {
     wrt_data inside {[32'h0100 : 32'hFFFF]};
   });
   operation_fd(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
-  //operation_bd(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
-  //combo1(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
-  //combo2(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
+  operation_bd(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
+  combo1(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
+  combo2(reg_blk.error_status_inst, wrt_data, "ERROR_STATUS");
 
 end
 
     //----------------------------------------------------------//
 
-//     //--------------- CONFIG REG (RW) --------------------------//
-repeat (1) begin   
-//   // -------- LOW --------
-//   assert(std::randomize(wrt_data) with {
-//     wrt_data inside {[32'h0000 : 32'h00FF]};
-//   });
-//   operation_fd(reg_blk.config_inst, wrt_data, "CONFIG_REG");
-//   operation_bd(reg_blk.config_inst, wrt_data, "CONFIG_REG");
-//   combo1(reg_blk.config_inst, wrt_data, "CONFIG_REG");
-//   combo2(reg_blk.config_inst, wrt_data, "CONFIG_REG");
+    //--------------- CONFIG REG (RW) --------------------------//
+    repeat (100) begin   
+  // -------- LOW --------
+  assert(std::randomize(wrt_data) with {
+    wrt_data inside {[32'h0000 : 32'h00FF]};
+  });
+  operation_fd(reg_blk.config_inst, wrt_data, "CONFIG_REG");
+  operation_bd(reg_blk.config_inst, wrt_data, "CONFIG_REG");
+  combo1(reg_blk.config_inst, wrt_data, "CONFIG_REG");
+  combo2(reg_blk.config_inst, wrt_data, "CONFIG_REG");
 
 //   // -------- MID --------
-//   assert(std::randomize(wrt_data) with {
-//     wrt_data inside {[32'h0100 : 32'h0FFF]};
-//   });
-//   operation_fd(reg_blk.config_inst, wrt_data, "CONFIG_REG");
-//   operation_bd(reg_blk.config_inst, wrt_data, "CONFIG_REG");
-//   combo1(reg_blk.config_inst, wrt_data, "CONFIG_REG");
-//   combo2(reg_blk.config_inst, wrt_data, "CONFIG_REG");
+  assert(std::randomize(wrt_data) with {
+    wrt_data inside {[32'h0100 : 32'h0FFF]};
+  });
+  operation_fd(reg_blk.config_inst, wrt_data, "CONFIG_REG");
+  operation_bd(reg_blk.config_inst, wrt_data, "CONFIG_REG");
+  combo1(reg_blk.config_inst, wrt_data, "CONFIG_REG");
+  combo2(reg_blk.config_inst, wrt_data, "CONFIG_REG");
 
 //   // -------- MAX --------
   assert(std::randomize(wrt_data) with {
     wrt_data inside {[32'h1000 : 32'hFFFF]};
   });
   operation_fd(reg_blk.config_inst, wrt_data, "CONFIG_REG");
-  //operation_bd(reg_blk.config_inst, wrt_data, "CONFIG_REG");
-  //combo1(reg_blk.config_inst, wrt_data, "CONFIG_REG");
-  //combo2(reg_blk.config_inst, wrt_data, "CONFIG_REG");
+  operation_bd(reg_blk.config_inst, wrt_data, "CONFIG_REG");
+  combo1(reg_blk.config_inst, wrt_data, "CONFIG_REG");
+  combo2(reg_blk.config_inst, wrt_data, "CONFIG_REG");
 
 end
 
@@ -613,18 +612,18 @@ class reset_seq extends uvm_sequence #(dma_seq_item);
               "Starting RESET CHECK sequence",
               UVM_LOW)
     
-    reg_blk.reset();   // resets mirror to reset values
+    reg_blk.reset();  
 
     check_reg(reg_blk.mem_addr_inst,"MEM_ADDR");
     check_reg(reg_blk.intr_inst,"INTR_REG");
     check_reg(reg_blk.ctrl_inst,"CTRL_REG");
     check_reg(reg_blk.io_addr_inst,"IO_ADDR");
-    check_reg(reg_blk.transfer_count_inst,  "TRANSFER_COUNT");
-    check_reg(reg_blk.descriptor_addr_inst, "DESCRIPTOR_REG");
-    check_reg(reg_blk.extra_info_inst,       "EXTRA_INFO");
-    check_reg(reg_blk.status_inst,           "STATUS_REG");
-    check_reg(reg_blk.error_status_inst,     "ERROR_STATUS");
-    check_reg(reg_blk.config_inst,           "CONFIG_REG");
+    check_reg(reg_blk.transfer_count_inst,"TRANSFER_COUNT");
+    check_reg(reg_blk.descriptor_addr_inst,"DESCRIPTOR_REG");
+    check_reg(reg_blk.extra_info_inst,"EXTRA_INFO");
+    check_reg(reg_blk.status_inst,"STATUS_REG");
+    check_reg(reg_blk.error_status_inst, "ERROR_STATUS");
+    check_reg(reg_blk.config_inst,"CONFIG_REG");
 
     `uvm_info(get_type_name(),
               "RESET CHECK sequence completed",
@@ -632,7 +631,6 @@ class reset_seq extends uvm_sequence #(dma_seq_item);
 
   endtask
 
-  //================ CHECK SINGLE REGISTER =================//
   task check_reg(uvm_reg rg, string name);
 
     // Read DUT → update mirror and compare
